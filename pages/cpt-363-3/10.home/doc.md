@@ -5,13 +5,17 @@ navigation:
     toc_position: hidden
 ---
 
+[announcement title="Class Cancelled" type="warning"]
+Thursday’s class is cancelled. See Modules for available class materials.
+[/announcement]
+
 # What’s Happening This Week
 
 ## How to explore the problem space?
 
 [doc-grid columns=1]
 
-[doc-card title="Important Reminders" icon="tabler/star.svg"]
+[doc-card title="Upcoming Due Dates" icon="tabler/star.svg"]
 
 - [Journey Map](#) assignment [doc-badge label="Tue Jun 12th 11:59pm PDT" color="plain"]
 
