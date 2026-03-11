@@ -1,8 +1,8 @@
 ---
-icon: tabler/bulb.svg
-description: 'An introduction to UI/UX design (Section 1).'
 published: true
 routable: false
+icon: tabler/bulb.svg
+description: 'An introduction to UI/UX design. Core pages of Home, Essentials, Modules, Schedule, Resources, and Syllabus. Course card supports a customizable icon.'
 sitemap:
     lastmod: '04-03-2026 22:22'
 ---
