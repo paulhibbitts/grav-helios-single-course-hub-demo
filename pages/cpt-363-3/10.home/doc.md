@@ -7,7 +7,7 @@ navigation:
 ---
 
 [announcement title="Class Cancelled" type="warning"]
-Thursday’s class is cancelled. See Modules for available class materials.
+Thursday’s class is cancelled. See [Modules](/cpt-363-3/modules) for available class materials.
 [/announcement]
 
 # What’s Happening This Week
@@ -28,7 +28,7 @@ Thursday’s class is cancelled. See Modules for available class materials.
 
 - [The Skeptic’s Guide To Low-Fidelity Prototyping](https://www.smashingmagazine.com/2014/10/the-skeptics-guide-to-low-fidelity-prototyping/)
 
-[doc-button label="Required Reading Quiz due June 4th" link="https://canvas.sfu.ca/courses/55288/quizzes/123648" size="default"]
+[doc-button label="Required Reading Quiz due June 4th" link="https://canvas-old.sfu.ca/courses/55288/quizzes/123648" size="default"]
 
 [/doc-card]
 [/doc-grid]

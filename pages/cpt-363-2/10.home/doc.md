@@ -7,7 +7,7 @@ navigation:
 ---
 
 > [!IMPORTANT]
-> The Project User Research Report assignment due date extended to **Jul 17th**. See the [course schedule](/cpt-363-2/schedule) for that week's details.
+> The Project User Research Report assignment due date extended to **Jul 17th**. See the [Schedule](/cpt-363-2/schedule) for that week's details.
 
 # What’s Happening This Week
 
@@ -27,7 +27,7 @@ navigation:
 
 - [The Skeptic’s Guide To Low-Fidelity Prototyping](https://www.smashingmagazine.com/2014/10/the-skeptics-guide-to-low-fidelity-prototyping/)
 
-[doc-button label="Required Reading Quiz due June 4th" link="https://canvas.sfu.ca/courses/55288/quizzes/123648" size="default"]
+[doc-button label="Required Reading Quiz due June 4th" link="https://canvas-old.sfu.ca/courses/55288/quizzes/123648" size="default"]
 
 [/doc-card]
 [/doc-grid]
