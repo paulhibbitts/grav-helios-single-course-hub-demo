@@ -46,6 +46,7 @@ The Helios Course Hub gives you a modern, open, and fully controlled companion s
 ### Course Content
 - Alphabetical topics index with auto-generated A–Z navigation
 - Announcement shortcode – display a styled notice on any course page, with optional custom title and color type
+- MarkdownFile shortcode – fetch and render a remote Markdown file inline, with YAML front matter automatically stripped
 - Configurable chapter page description line limit – set the maximum number of lines shown per card description on Chapter template pages (the Modules section uses this template) site-wide via the Helios Course Hub plugin settings (2 default, 3, or no limit)
 
 ### Embedding & Shortcodes
@@ -57,6 +58,7 @@ The Helios Course Hub gives you a modern, open, and fully controlled companion s
 - Git Sync plugin included for syncing site content with GitHub, Codeberg, or similar Git hosting service
 - Automatic "Edit this Page" link option provided by the Helios Theme, with support for both GitHub and Codeberg repositories — defaults to **View Page Markdown** (linking to the Markdown source file for open reuse and OER access) and optionally configurable to link directly to file editing for course authors and contributors
 - Customizable CSS and JavaScript via the bundled Helios Course Hub plugin
+- Print stylesheet with page break control for images, lists, tables, and headings; absolute link URLs displayed inline; and consistent page margins across browsers
 - Admin panel styling customizations (increased font sizes and toolbar icon scaling)
 - Page Table of Contents template (`default-toc`) – set `template: default-toc` in any page's frontmatter to display a right-column Table of Contents alongside the content
 
@@ -64,7 +66,7 @@ If you prefer not to write Markdown directly, the optional [Grav Premium Editor 
 
 ## Quick Start
 
-The skeleton is a **complete, ready-to-run package** – Grav CMS, the Helios Course Hub plugin, and demo content are all included. The home page is a **Courses** listing that shows all active courses – by default, just `cpt-363-1/`.
+The skeleton is a **complete package** – Grav CMS, the Helios Course Hub plugin, and demo content are all included, but requires the separately licensed [Grav Premium Helios theme](https://getgrav.org/premium/helios). The home page is a Courses listing that shows all active courses – by default, just cpt-363-1/.
 
 ### Pre-flight Checklist
 1. Confirm your web server meets [Grav's requirements](https://learn.getgrav.org/17/basics/requirements) (PHP 7.3.6 or higher)
@@ -93,7 +95,7 @@ user/pages/
 ├── 00.courses/                  # Courses homepage
 │   └── course-list.md           # Course list settings and default card values
 ├── cpt-363-1/                   # Course 1 (published by default)
-│   ├── course-card.md                # Course settings (icon, image, instructor, badge)
+│   ├── course-card.md           # Course settings (icon, image, instructor, badge)
 │   ├── 10.home/
 │   ├── 20.essentials/
 │   ├── 30.modules/
@@ -111,14 +113,7 @@ Rename the course folders (e.g. `cpt-363-1/` → `comp-101/`) to match your own 
 
 By default, only `cpt-363-1/` is published, so the Courses homepage shows a single course card – a clean starting point for a one-course site. To activate additional courses, set **Published** to **Yes** in each course folder's root page. The Course Dropdown appears automatically once more than one course is published, and hides automatically when only one course is active.
 
-### Showing and Hiding Courses
-
-In the Admin panel, open the course folder's root page (e.g. `cpt-363-2`) and set **Published** to **Yes** to show or **No** to hide the course.
-
-> [!TIP]
-> When multiple courses are published, the Course Dropdown is useful while building and testing content, but students may find the Courses homepage is sufficient. Once content is finalized, you can hide this dropdown by setting **Show Version Dropdown** to **No** in the Helios Theme settings.
-
-## Course Folder Naming
+### Course Folder Names
 
 Course folders must start with one or more letters, followed by a number. An optional hyphen can separate the letters from the number. Additional version segments (separated by dots or hyphens) are supported.
 
@@ -127,6 +122,13 @@ Course folders must start with one or more letters, followed by a number. An opt
 **Invalid names:** `01.course` (starts with a digit), `course` (no number), `1course` (starts with a digit)
 
 The simplest convention is `course-1`, `course-2`, `course-3`, etc.
+
+### Showing and Hiding Courses
+
+In the Admin panel, open the course folder's root page (e.g. `cpt-363-2`) and set **Published** to **Yes** to show or **No** to hide the course.
+
+> [!TIP]
+> When multiple courses are published, the Course Dropdown is useful while building and testing content, but students may find the Courses homepage is sufficient. Once content is finalized, you can hide this dropdown by setting **Show Version Dropdown** to **No** in the Helios Theme settings.
 
 ## Courses Homepage
 
@@ -210,29 +212,13 @@ The skeleton includes the [Git Sync plugin](https://github.com/trilbymedia/grav-
 
 Custom CSS, JavaScript and shortcodes for the Helios Course Hub theme, plus Admin panel styling. If the Helios theme is not installed, the plugin automatically falls back to the Quark theme so the frontend site remains viewable, redirecting to the License Manager page in the Admin panel. The Course dropdown label can be customized in `languages.yaml` — English and French are included by default.
 
-### Plugin Settings
-
-The following settings are available in the Admin panel under **Plugins → Helios Course Hub**:
-
-| Setting | Default | Description |
-|---------|---------|-------------|
-| Show Site Logo Icon | Enabled | Show or hide the icon square next to the Logo Text in the header when no logo image is set |
-| Site Logo Icon | _(empty)_ | Tabler icon path for the site logo icon square (e.g. [raw]`tabler/book.svg`[/raw]). Leave empty to use the default icon. Only applies when Show Site Logo Icon is enabled |
-| Single Course Site Logo Link | Courses Home Page | Choose where the site Logo Text and icon link navigates: **Courses Home Page** or **First Page of Only Listed Course** (navigates to the first page of the course when only one course is active) |
-| Show Plugin Credits | Enabled | Show or hide the "Built with Grav · Helios · Helios Course Hub" attribution line in the footer |
-| Description Line Limit | 2 lines | Maximum number of lines shown per card description on Chapter template pages; the Modules section uses this template (2, 3, or no limit) |
-| Show Repository Host Icon Link in Header | Enabled | Show or hide the GitHub or Codeberg icon link to the course repository in the site header |
-| Git Link Icon | [raw]`tabler/file-text.svg`[/raw] | Tabler icon path for the Git link icon shown in the page footer |
-| Git Link Mode | View file | Whether the Git link opens the file for **viewing** (default, for OER access and open reuse) or **editing** (for course authors and contributors with repository access) |
-| Repository Host | [raw]`github.com`[/raw] | Repository hosting service for the Helios GitHub Integration ([raw]`github.com`[/raw] or [raw]`codeberg.org`[/raw]) |
-| H5P Content Embed Source URL | `https://h5p.org/h5p/embed/` | Base URL for H5P embeds via Content ID (used with [raw]`[h5p id="..."]`[/raw]) |
-
 ### Templates
 - **default-toc** – Content page template with a right-column Table of Contents. Set `template: default-toc` in any page's frontmatter to enable. Requires the page-toc plugin (included).
 
 ### Assets
 - **helios.css** – Theme styling (announcement blockquotes, heading typography, Font Awesome spacing, responsive containers)
 - **helios.js** – Embedly dark/light theme support with automatic CDN loading
+- **print.css** – Print stylesheet (hides navigation chrome, resets colors for light and dark themes, controls page breaks, displays absolute link URLs, sets consistent page margins)
 - **admin.css** – Increased Admin panel font sizes and toolbar icon scaling
 - **admin.js** – Admin panel JavaScript customizations
 
@@ -250,6 +236,24 @@ The following settings are available in the Admin panel under **Plugins → Heli
 - [raw]`[topics]...[/topics]`[/raw] – Alphabetical topics index with auto-generated A–Z navigation, linked letters, and styled letter section labels
 - [raw]`[announcement]...[/announcement]`[/raw] – Styled announcement notice (default: Important/purple), supports Markdown content
 - [raw]`[announcement title="..." type="..."]...[/announcement]`[/raw] – With optional custom title and type (`note`, `tip`, `important`, `warning`, `caution`)
+- [raw]`[markdownfile url="..."]`[/raw] – Fetches and renders a remote Markdown file inline, stripping YAML front matter
+
+### Plugin Settings
+
+The following settings are available in the Admin panel under **Plugins → Helios Course Hub**:
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Show Site Logo Icon | Enabled | Show or hide the icon square next to the Logo Text in the header when no logo image is set |
+| Site Logo Icon | _(empty)_ | Tabler icon path for the site logo icon square (e.g. [raw]`tabler/book.svg`[/raw]). Leave empty to use the default icon. Only applies when Show Site Logo Icon is enabled |
+| Single Course Site Logo Link | Courses Home Page | Choose where the site Logo Text and icon link navigates: **Courses Home Page** or **First Page of Only Listed Course** (navigates to the first page of the course when only one course is active) |
+| Show Plugin Credits | Enabled | Show or hide the "Built with Grav · Helios · Helios Course Hub" attribution line in the footer |
+| Description Line Limit | 2 lines | Maximum number of lines shown per card description on Chapter template pages; the Modules section uses this template (2, 3, or no limit) |
+| Show Repository Host Icon Link in Header | Enabled | Show or hide the GitHub or Codeberg icon link to the course repository in the site header |
+| Git Link Icon | [raw]`tabler/file-text.svg`[/raw] | Tabler icon path for the Git link icon shown in the page footer |
+| Git Link Mode | View file | Whether the Git link opens the file for **viewing** (default, for OER access and open reuse) or **editing** (for course authors and contributors with repository access) |
+| Repository Host | [raw]`github.com`[/raw] | Repository hosting service for the Helios GitHub Integration ([raw]`github.com`[/raw] or [raw]`codeberg.org`[/raw]) |
+| H5P Content Embed Source URL | `https://h5p.org/h5p/embed/` | Base URL for H5P embeds via Content ID (used with [raw]`[h5p id="..."]`[/raw]) |
 
 ## Requirements
 
