@@ -34,7 +34,7 @@ The Helios Course Hub gives you a modern, open, and fully controlled companion s
 
 ## Features
 
-Helios Course Hub provides a ready-built course site using portable Markdown files you fully control. Highlights include visual course cards, context-aware search, and optional Git Sync for open collaborative authoring.
+Helios Course Hub provides a ready-built course site using portable Markdown files you fully control. Highlights include visual course cards, course-aware search, and optional Git Sync for open collaborative authoring.
 
 ### Site Identity
 - Show or hide the site logo icon square next to the Logo Text in the header, with optional custom Tabler icon
@@ -43,7 +43,7 @@ Helios Course Hub provides a ready-built course site using portable Markdown fil
 - Per-course favicon support: upload a `favicon.*` file to a course root page's media to override the site favicon for that course
 
 ### Course Cards
-- Optional course card images: upload an image to a course root page's media and set `image` in frontmatter to display it on the course card, with a choice of side thumbnail or full-width top layout
+- Optional course card images: upload an image to a course root page's media and set `image` in frontmatter to display it on the course card, with a choice of side thumbnail or full-width top layout (side automatically switches to top at 3 cards per row)
 - Add optional instructor names and status badges (e.g. `Coming Soon`, `Archived`) to course cards via frontmatter
 
 ### Course Content
@@ -51,9 +51,30 @@ Helios Course Hub provides a ready-built course site using portable Markdown fil
 - Announcement shortcode: display a styled notice on any course page, with optional custom title and color type
 - MarkdownFile shortcode: fetch and render a remote Markdown file inline, with YAML front matter automatically stripped
 - Configurable chapter page description line limit: set the maximum number of lines shown per card description on Chapter template pages (the Modules section uses this template) site-wide via the Helios Course Hub plugin settings (2 default, 3, or no limit)
+- Chapter page child grouping: organize cards on a chapter page into labeled sections by adding `group: "Label"` to a `doc` child page's frontmatter; pages without a group appear first with no heading
 
 ### Embedding & Shortcodes
 - Embed rich content with built-in shortcodes: iFrames, Google Slides, PDFs, H5P, and Embedly cards, with responsive 16:9 layout and automatic dark/light theme detection
+- LMS embedding mode: append `?embedded=true` to any page URL to display only the page content — no sidebar, header, or pagination — for use in an LMS iframe; internal links automatically carry the parameter forward
+- TOC position override: append `?toc_position=hidden|left|right` (or `?toc=`) to any page URL to override the Table of Contents position per request, without changing page frontmatter
+- Git link visibility: append `?edit_link=false` (or `?hidegitlink=true`) to any page URL to hide the "Edit this Page" link per request
+
+### LMS Embedding
+
+Append `?embedded=true` to any page URL to display only the page content — no sidebar, header, or pagination. Designed for embedding Helios Course Hub pages in an LMS iframe (Canvas, Moodle, Brightspace, etc.).
+
+- All internal links automatically carry the `?embedded=true` parameter forward, so navigating between pages stays in embedded mode
+- `?chromeless=true` is also supported as an alternative parameter name
+- Works with HTMX navigation — links in dynamically loaded content are also rewritten
+- Combine with `?toc_position=hidden` (or `?toc=hidden`) to also hide the Table of Contents, useful for narrow iframe embeds
+- Combine with `?toc_position=left` or `?toc_position=right` to reposition the Table of Contents, useful for working with surrounding LMS navigation elements
+- Combine with `?edit_link=false` (or `?hidegitlink=true`) to hide the "Edit this Page" link on a per-page basis
+
+**Example iframe:**
+
+```html
+<iframe src="https://yoursite.com/cpt-363-1/home?embedded=true" width="100%" height="600" style="border:none;"></iframe>
+```
 
 ### Authoring & Customization
 - Git Sync plugin included for syncing site content with GitHub, Codeberg, or similar Git hosting service
@@ -67,7 +88,7 @@ Helios Course Hub provides a ready-built course site using portable Markdown fil
 The skeleton is a **complete package** – Grav CMS, the Helios Course Hub plugin, and demo content are all included; the [Grav Premium Helios theme](https://getgrav.org/premium/helios) requires a separate license. The home page is a Courses listing that shows all active courses – by default, just cpt-363-1/.
 
 ### Pre-flight Checklist
-1. Confirm your web server meets [Grav's requirements](https://learn.getgrav.org/17/basics/requirements) (PHP 7.3.6 or higher)
+1. Confirm your web server meets [Grav's requirements](https://learn.getgrav.org/17/basics/requirements) (PHP 8.0 or higher)
 2. Have your web server login credentials ready (username and password)
 
 ### Installation Steps
@@ -131,14 +152,14 @@ In the Admin panel, open the course folder itself (e.g. `cpt-363-2`) and set **P
 Once you have set up your own courses, you can safely delete any unused demo course folders (e.g. `cpt-363-2/`, `cpt-363-3/`) from `user/pages/` via the Admin panel or FTP.
 
 > [!TIP]
-> If changes don't appear immediately after updating settings or publishing pages, clear the Grav cache via the **Clear Cache** button in the upper-right of the Admin Dashboard.
+> If changes don't appear immediately after updating settings or publishing pages, clear the Grav cache via the **Clear Cache** button in the Admin panel.
 
 ### Adding a New Course
 
-To add a course beyond the three included demo folders, duplicate an existing course folder (e.g. `cpt-363-1/`) via FTP or the Admin panel (when using the Admin panel, click the duplicate icon to open the **Copy Page** dialog — update the **Folder Name** field to a valid course ID (e.g. `course-101`) and remove the `-copy` suffix before saving), then ensure it follows the naming rules above, and add the new folder name as a key in `versioning.labels` in `user/config/themes/helios.yaml` (or via **Admin → Themes → Helios → Versioning → Version Labels**). Then set **Published** to **Yes** in the Admin panel to make it visible on the Courses homepage.
+To add a course beyond the three included demo folders, copy an existing course folder (e.g. `cpt-363-1/`) via FTP or the Admin panel (when using the Admin panel, open course page, click the copy icon, update the **Page Title** field to a valid new course ID (e.g. `course-101`)), then ensure it follows the naming rules above, and add the resulting new folder name as a key in `versioning.labels` in `user/config/themes/helios.yaml` (or via **Admin → Themes → Helios → Versioning → Version Labels**). Then set **Published** to **Yes** in the Admin panel to make it visible on the Courses homepage.
 
 > [!TIP]
-> After duplicating and renaming a course folder, clear the Grav cache via the **Clear Cache** button in the upper-right of the Admin Dashboard if the new course does not appear immediately.
+> After duplicating and renaming a course folder, clear the Grav cache via the **Clear Cache** button in the Admin panel if the new course does not appear immediately.
 
 ## Courses Homepage
 
@@ -152,7 +173,7 @@ The `course-list.md` frontmatter controls the list layout and sets default value
 |-------|---------|-------------|
 | `cards_per_row` | `1` | Number of course cards per row (1–3) |
 | `card_icon` | _(empty)_ | Default icon for all course cards (Tabler icon path); also used as the sidebar course label icon when a course has no `icon` of its own |
-| `card_image_layout` | `side` | Image layout: `side` (left thumbnail) or `top` (full-width above content) |
+| `card_image_layout` | `side` | Image layout: `side` (left thumbnail) or `top` (full-width above content); side automatically switches to top at 3 cards per row |
 | `card_description_lines` | `3` | Maximum description lines per card (2, 3, or 0 for no limit) |
 
 Page content written in `course-list.md` appears above the course cards by default. To also display content **below** the cards, add `===` on its own line as a delimiter:
@@ -259,7 +280,7 @@ If you prefer not to write Markdown directly, the optional [Grav Premium Editor 
 
 ## Included Plugin: Helios Course Hub
 
-Custom CSS, JavaScript, shortcodes, and Helios-inspired Admin Panel styling with improved readability for the Helios Course Hub skeleton. If the Helios theme is not installed, the plugin automatically falls back to the Quark theme so the frontend site remains viewable, redirecting to the License Manager page in the Admin panel.
+Custom CSS, JavaScript, shortcodes, and Helios-inspired Admin Panel styling with improved readability for the Helios Course Hub skeleton. If the Helios theme is not installed, the plugin automatically falls back to the Quark or Quark2 theme so the frontend site remains viewable, redirecting to the License Manager page in the Admin panel.
 
 ### Templates
 - **course-list** – Courses homepage template that renders all visible courses as cards. Assigned automatically to the Courses homepage (`/courses`).
@@ -313,7 +334,7 @@ The following settings are available in the Admin panel under **Plugins → Heli
 | Repository Host | [raw]`github.com`[/raw] | Repository hosting service for the Helios GitHub Integration ([raw]`github.com`[/raw] or [raw]`codeberg.org`[/raw]) |
 | H5P Content Embed Source URL | `https://h5p.org/h5p/embed/` | Base URL for H5P embeds via Content ID (used with [raw]`[h5p id="..."]`[/raw]) |
 
-> **Note:** The Helios-inspired Admin Panel colour scheme (zinc nav, accessible blue links, muted purple accents) is pre-configured in this skeleton.
+> **Note:** The Helios-inspired Admin Panel 1.7 colour scheme (zinc nav, accessible blue links, muted purple accents) is pre-configured in this skeleton. Also compatible with the new Admin 2 panel, where larger font sizes improve readability without applying Helios-inspired theming.
 
 ## Requirements
 
