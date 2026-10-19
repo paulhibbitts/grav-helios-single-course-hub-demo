@@ -1,6 +1,6 @@
 ---
 title: Courses
-published: true
+published: false
 visible: true
 cards_per_row: '1'
 card_icon: tabler/layout-list.svg
