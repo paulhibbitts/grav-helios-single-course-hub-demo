@@ -8,6 +8,8 @@ navigation:
     toc_position: hidden
 ---
 
+# Syllabus
+
 **GPV – Digital Animation** (ANIM8) · Instructor: D. Ingram
 
 ## About the Course
