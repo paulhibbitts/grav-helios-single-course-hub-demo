@@ -1,6 +1,6 @@
 ---
 published: true
-routable: false
+routable: true
 description: 'Introduction to Teaching Online'
 show_sidebar_image: '0'
 ---
